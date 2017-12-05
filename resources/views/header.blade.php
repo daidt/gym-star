@@ -14,16 +14,22 @@
         <li><a href="#">ABOUT</a></li>
         <li><a href="#">CONTACT</a></li>
         @if(Auth::check())
+{{--         <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">TRAINING<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">All programs</a></li>
+            <li><a href="#">All coach</a></li>
+          </ul>
+        </li> --}}
+
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span>{{Auth::user()->username}}
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="#">Blog</a></li>
             <li><a href={{ route('mypage',Auth::user()->username) }}>My page</a></li>
             <li><a href={{ route('profile',Auth::user()->username) }}>My profile</a></li>
             <li><a href="{{ route('logout') }}">Logout</a></li>
-
           </ul>
         </li>
         @else

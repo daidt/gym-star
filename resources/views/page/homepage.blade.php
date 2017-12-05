@@ -18,34 +18,34 @@ GYM STAR
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active">
-      <img src="image/slide/gym1.jpg" alt="New York" width="1200" height="700">
+      <img src="image/slide/gym1.jpg" alt="gym1" width="1200" height="700">
       <div class="carousel-caption">
-        <h3>New York</h3>
-        <p>The atmosphere in New York is lorem ipsum.</p>
+        <h2>Practice Health</h2>
+        <p>Health is very important.</p>
       </div>      
     </div>
 
     <div class="item">
-      <img src="image/slide/gym2.jpg" alt="Chicago" width="1200" height="700">
+      <img src="image/slide/gym2.jpg" alt="gym2" width="1200" height="700">
       <div class="carousel-caption">
-        <h3>Chicago</h3>
-        <p>Thank you, Chicago - A night we won't forget.</p>
+        <h2>Practice Health</h2>
+        <p>Health is very important.</p>
       </div>      
     </div>
     
     <div class="item">
-      <img src="image/slide/gym3.jpg" alt="Los Angeles" width="1200" height="700">
+      <img src="image/slide/gym3.jpg" alt="gym3" width="1200" height="700">
       <div class="carousel-caption">
-        <h3>LA</h3>
-        <p>Even though the traffic was a mess, we had the best time playing at Venice Beach!</p>
+        <h2>Practice Health</h2>
+        <p>Health is very important.</p>
       </div>      
     </div>
 
     <div class="item">
-      <img src="image/slide/gym4.jpg" alt="Washington" width="1200" height="700">
+      <img src="image/slide/gym4.jpg" alt="gym4" width="1200" height="700">
       <div class="carousel-caption">
-        <h3>LA</h3>
-        <p>Even though the traffic was a mess, we had the best time playing at Venice Beach!</p>
+        <h2>Practice Health</h2>
+        <p>Health is very important.</p>
       </div>      
     </div>
   </div>

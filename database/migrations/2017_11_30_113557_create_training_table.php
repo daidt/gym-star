@@ -15,8 +15,8 @@ class CreateTrainingTable extends Migration
     {
         Schema::create('training', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('id_user');
-            $table->string('id_program');
+            $table->string('id_user')->nullable();
+            $table->string('id_program')->nullable();
         });
     }
 

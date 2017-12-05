@@ -15,7 +15,6 @@ class ActionsTableSeeder extends Seeder
 
     	for ($i = 1; $i <= 100; $i++) {
     		DB::table('actions')->insert([
-    			'title'   => 'action' . $i ,
     			'content' =>  'action-content' . $i,
     		]);
     	}

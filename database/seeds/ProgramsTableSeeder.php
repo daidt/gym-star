@@ -16,7 +16,6 @@ class ProgramsTableSeeder extends Seeder
     	for ($i = 1; $i <= 20; $i++) {
     		DB::table('programs')->insert([
     			'title'   => 'program' . $i ,
-    			'content' =>  'program-content' . $i,
     			'image'   => 'https://placehold.it/150x80?text=IMAGE',
     			'level'   => rand(1,3),
     		]);

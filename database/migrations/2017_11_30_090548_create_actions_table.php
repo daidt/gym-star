@@ -15,9 +15,7 @@ class CreateActionsTable extends Migration
     {
         Schema::create('actions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
             $table->string('content');
-            $table->timestamps();
         });
     }
 

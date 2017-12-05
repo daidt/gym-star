@@ -18,6 +18,7 @@ class CreatePracticeTable extends Migration
             $table->string('id_user');
             $table->string('id_program');
             $table->timestamps();
+            $table->string('completed_time');
         });
     }
 

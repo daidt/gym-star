@@ -61,4 +61,54 @@ Route::get('mypage/{username}',[
 	'uses' => 'UserController@getMyPage'
 ]);
 
+Route::get('mypage/{username}/search',[
+	'as' => 'search',
+	'uses' => 'UserController@search'
+]);
+
+Route::get('subscribe/{id}',[
+	'as' => 'subscribe',
+	'uses' => 'UserController@subscribe'
+]);
+
+Route::get('myblog/{username}',[
+	'as' => 'myblog',
+	'uses' => 'UserController@getMyBlog'
+]);
+
+Route::post('post-blog',[
+	'as' => 'post_blog',
+	'uses' => 'UserController@postBlog'
+]);
+
+Route::get('show-program-detail/{id}',[
+	'as' => 'show_program_detail',
+	'uses' => 'UserController@showProgramDetail'
+]);
+
+Route::get('start-program/{idProgram}',[
+	'as' => 'start_program',
+	'uses' => 'UserController@startProgram'
+]);
+
+
+Route::get('completed-actions/{idProgram}',[
+	'as' => 'completed_actions',
+	'uses' => 'UserController@completedActions'
+]);
+
+Route::get('all-programs',[
+	'as' => 'all_programs',
+	'uses' => 'UserController@getAllPrograms'
+]);
+
+Route::get('info-program/{idProgram}',[
+	'as' => 'info_program',
+	'uses' => 'UserController@getInfoProgram'
+]);
+
+Route::get('info-coach/{idCoach}',[
+	'as' => 'info_coach',
+	'uses' => 'UserController@getInfoCoach'
+]);
 

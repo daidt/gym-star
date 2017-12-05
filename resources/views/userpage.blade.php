@@ -10,13 +10,13 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-{{--   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<link rel="stylesheet" href="{{Asset('css/bootstrap.min.css')}}"> --}}
-<script type="text/javascript" src="{{Asset('js/jquery-validate/jquery.validate.js')}}"></script>
-<style>
-body {
-  font: 400 15px/1.8 Lato, sans-serif;
-}
+  {{--   <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <link rel="stylesheet" href="{{Asset('css/bootstrap.min.css')}}"> --}}
+  <script type="text/javascript" src="{{Asset('js/jquery-validate/jquery.validate.js')}}"></script>
+  <style>
+  body {
+    font: 400 15px/1.8 Lato, sans-serif;
+  }
 /*h3, h4 {
   margin: 10px 0 30px 0;
   letter-spacing: 10px;      
@@ -70,6 +70,7 @@ body {
 
   .mypage {
     padding-top: 50px;
+    padding-bottom: 50px
     width: 100%;
     height: 100%;
   }
@@ -186,10 +187,78 @@ body {
 </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
-
   @include('header')
-  @yield('content')
-  @include('footer')
+  <div class="mypage">
+    <div class="container-fluid text-center">    
+      <div class="row content">
+        <div class="col-sm-2 sidenav">
+          <p><a href="{{ route('mypage',Auth::user()->username)}}">My Programs</a></p>
+          <p><a href="{{ route('myblog',Auth::user()->username)}}">My Blogs</a></p>
+          <p><a href="{{ route('all_programs') }}">All Program</a></p>
+          <p><a href="#">All Blogs</a></p>
+          <p><a href="#">All Coach</a></p>
+        </div>
 
+        @yield('content')
+        <div class="col-sm-2 sidenav">
+          <h3 align="center">Search program</h3>
+          <form action="{{route('search',Auth::user()->username)}}" class="form-horizontal" method="GET" name="search-program" id="search-program" enctype="multipart/form-data" >       
+            <div class="form-group">
+              <label class="control-label">Age (Year old) :<span class="text-danger"> *</span></label><br> 
+              <input type="text" class="form-control" name="age" id="age" placeholder="Enter your age" required="" value="">
+              <span class="text-danger" id="error-age"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">Weight (Kg) :<span class="text-danger"> *</span></label><br>  
+              <input type="text" class="form-control" name="weight" id="weight" placeholder="Enter your weight" required="" value="">
+              <span class="text-danger" id="error-weight"></span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Height (Cm) :<span class="text-danger"> *</span></label><br>  
+              <input type="text" class="form-control" name="height" id="height" placeholder="Enter your height" required="" value="">
+              <span class="text-danger" id="error-height"></span>
+            </div>
+
+            <div class="form-group">            
+              <input name="Submit" type="submit" value="Search" class="btn btn-primary">
+            </div>
+          </form>
+
+          <script type="text/javascript">
+            $("#search-program").validate({
+              rules:{
+                age:{
+                  required:true,
+                  digits: true,
+                },
+                weight:{
+                  required:true,
+                  digits: true,
+                },
+                height:{
+                  required:true,
+                  digits: true,
+                },
+              },
+              messages:{
+
+              },
+
+              errorPlacement: function(error, element) {
+                error.appendTo('#error-' + element.attr('id'));
+              }
+
+
+            })
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@include('footer')
 </body>
 </html>
+

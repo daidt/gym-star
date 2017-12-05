@@ -11,11 +11,19 @@ class TrainingTableSeeder extends Seeder
      */
     public function run()
     {
-    	for ($i = 1; $i <= 200; $i++) {
-    		DB::table('training')->insert([
-    			'id_user'   => rand(10,30) ,
-    			'id_program'   => rand(1,20),
-    		]);
-    	}
-    }
+        for ($i=10; $i <= 30 ; $i++) {
+            $faker = Faker\Factory::create();
+
+            for ($j = 1; $j <= rand(8,15); $j++) {
+              DB::table('training')->insert([
+                'id_user'   => $i,
+               'id_program'   => $faker->unique()->numberBetween(1,50),
+           ]);
+          }
+
+          unset($faker);
+      }
+
+
+  }
 }
