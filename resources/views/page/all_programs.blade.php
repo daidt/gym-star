@@ -30,8 +30,34 @@ All programs
 				<div align="center">
 					<img src="{{$p->image}}" alt="Image">
 				</div>
-
 				<br>
+				<ul class="list-inline list-unstyled">
+					@if(isset($like))
+					<?php
+					$count = 0;?>
+					@foreach($like as $l)
+					<?php
+					if($p->id == $l->id_program)
+						$count++;
+					?>
+					@endforeach
+					
+					<b> <span class="glyphicon glyphicon-thumbs-up"></span> {{$count}} Liked&nbsp;&nbsp;&nbsp;&nbsp;</b>
+					
+					@endif
+					<span><i class="glyphicon glyphicon-comment"></i>
+						<?php
+						$count = 0;?>
+						@foreach($comment as $c)
+						<?php
+						if($p->id == $c->id_program)
+							$count++;
+						?>
+						@endforeach
+						{{$count}}
+					</span>
+				</ul>
+				
 				@if(!isset($practice))
 				<a href="{{route('subscribe',$p->id)}}">Subscribe</a>
 				@else
@@ -49,14 +75,14 @@ All programs
 				<h4><a href="{{route('subscribe',$p->id)}}">Subscribe now >> </a></h4>
 				@endif
 				@endif
-				
+
 			</div>
 		</div>
 	</div>
 	@endforeach
 
 	<div align="center" class="row">{{ $program->appends(Request::all())->links() }}</div>
-	
+
 </div>
 
 @endsection

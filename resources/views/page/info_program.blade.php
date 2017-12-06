@@ -27,29 +27,101 @@ Programs Details
 					<img src="{{$p[0]->image}}" alt="Image">
 				</div>
 				<br>
-				<a href=""><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
-				{{-- <b  style="color: blue"><span class="glyphicon glyphicon-thumbs-up"></span> Liked</b> --}}
+				<ul class="list-inline list-unstyled">
+					@if(isset($like) && (count($like)>0))
+					<?php $check = 0;
+					foreach ($like as $l){
+						if($l->id_user == Auth::user()->id)
+							$check = 1;
+						}
+						?>
+						@if($check == 1)
+						<b> <span class="glyphicon glyphicon-thumbs-up"></span> {{count($like)}} Liked</b>
+						@else
+						<li><a href="{{ route('like_program',$p[0]->id) }}"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+						@endif
+						&nbsp;&nbsp;&nbsp;&nbsp;
+
+						@else
+						<li><a href="{{ route('like_program',$p[0]->id) }}"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+
+						@endif
+						<span><i class="glyphicon glyphicon-comment"></i>
+							{{$count}}
+						</span>
+					</ul>
+				</div>
 			</div>
 		</div>
-	</div>
-	
 
-	<div>
-		<h2>Actions :</h2>
-		@foreach($action as $at)													
-		<h4>- {{$at->content}}</h4><br>
-		@endforeach
+
+		<div>
+			<h2>Actions :</h2>
+			@foreach($action as $at)													
+			<h4>- {{$at->content}}</h4>
+			@endforeach
+
+			<hr>
+		</div>
+
+		@if($practiced)
+		<h4>Subscribed</h4>
+		@else
+		<h3><a href="{{ route('subscribe',$p[0]->id) }}">Subscribe now >> </a></h3>
+		@endif
+		<hr>
+
+		<form action="{{ route('comment_program',$p[0]->id) }}" method="post" id="comment" name="comment">
+			{{csrf_field()}}
+			<div class="form-group">
+				<label for="content">Leave a comment:</label>
+				<textarea class="form-control" rows="5" name="content" id="content"></textarea>
+				<span class="text-danger" id="error-content"></span>
+				@if ($errors->has('content'))
+				<span class="help-block">
+					<strong>{{ $errors->first('content') }}</strong>
+				</span>
+				@endif
+			</div>
+
+			<div class="form-group">            
+				<input name="Submit" type="submit" value="Post" class="btn btn-primary">
+			</div>
+		</form>
+		<script type="text/javascript">
+			$("#comment").validate({
+				rules:{
+					content:{
+						required:true,
+					},
+				},
+				messages:{
+
+				},
+
+				errorPlacement: function(error, element) {
+					error.appendTo('#error-' + element.attr('id'));
+				}
+
+
+			})
+		</script>
 
 		<hr>
+
+		@if(isset($comments_programs))
+		@foreach($comments_programs as $cp)
+		<div>
+			<b>{{$cp->fullname}}</b>
+			<p>{{$cp->content}}</p>
+			<span><i class="glyphicon glyphicon-calendar"></i> {{$cp->created_at}} </span>
+		</div>
+		<hr>
+		@endforeach
+		<div align="center" class="row">{{ $comments_programs->appends(Request::all())->links() }}</div>
+
+		@endif
+
 	</div>
-	
-	@if($practiced)
-	<h4>Subscribed</h4>
-	@else
-	<h3><a href="{{ route('subscribe',$p[0]->id) }}">Subscribe now >> </a></h3>
-	@endif
-	<hr>
 
-</div>
-
-@endsection
+	@endsection

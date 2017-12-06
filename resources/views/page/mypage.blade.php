@@ -5,10 +5,11 @@
 
 @section('content')
 <div class="col-sm-8 text-left"> 
-	<center><h3>My Programs: You subscribed {{$count_program}} program</h3></center>
+	
 	@if(!isset($program))
-	<div>You don't subscribe program</div>
+	<div><h1>You don't subscribe program</h1></div>
 	@else
+	<center><h3>My Programs: You subscribed {{$count_program}} program</h3></center>
 	@foreach($program as $p)
 	<div class="well">
 		<div class="media">

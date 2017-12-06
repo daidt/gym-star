@@ -19,6 +19,8 @@ use App\Action;
 use App\Completed;
 use App\Training;
 use App\Blogs_Comment;
+use App\Like;
+use App\Comment_Program;
 
 class UserController extends Controller
 {
@@ -278,9 +280,10 @@ class UserController extends Controller
 		$idUser = Auth::user()->id;
 		$practice = Practice::where('id_user',$idUser)->get();
 
-		
+		$like = Like::all();
+		$comment = Comment_Program::all();
 
-		return view('page.all_programs',compact(['program','practice','coach','count']));
+		return view('page.all_programs',compact(['program','practice','coach','count','like','comment']));
 	}
 
 	public function getInfoProgram($idProgram)
@@ -299,6 +302,19 @@ class UserController extends Controller
 		->join('users', 'training.id_user', '=', 'users.id')
 		->select('users.fullname','training.id_program','users.id')
 		->get();
+
+		$like = Like::where('id_program',$idProgram)->get();
+
+		$count = count(Comment_Program::where('id_program',$idProgram)->get());
+
+		$comments_programs = DB::table('comments')
+		->join('users', 'comments.id_user', '=', 'users.id')
+		->where('comments.id_program', '=', $idProgram)
+		->select('comments.*','users.fullname')
+		->orderBy('comments.created_at','desc')
+		->paginate(5);
+
+
 		// $action_completed = Completed::where('id_practice',$idPractice)->get();
 
 		// if((count($action) == count($action_completed)) && $completed_time == "" ) {
@@ -308,7 +324,7 @@ class UserController extends Controller
 		// 	$practice[0]-> touch();
 		// }
 
-		return view('page.info_program',compact(['p','action','practiced','coach']));
+		return view('page.info_program',compact(['p','action','practiced','coach','like','comments_programs','count']));
 	}
 
 
@@ -381,13 +397,41 @@ class UserController extends Controller
 			'content' => 'required'
 		]);
 
-		$blogs_comment = new Blogs_comment();
+		$blogs_comment = new Blogs_Comment();
 		$blogs_comment->id_user = $idUser;
 		$blogs_comment->id_blog = $idBlog;
 		$blogs_comment->content = $req->content;
 		$blogs_comment->save();
 		return redirect()->back();
 
+	}
+
+	public function likeProgram($id)
+	{
+		$idUser = Auth::user()->id;
+		$idProgram = $id;
+		$like = new Like();
+		$like->id_user = $idUser;
+		$like->id_program = $idProgram;
+		$like->save();
+		return redirect()->back();
+	}
+
+	public function commentProgram(Request $req,$id)		
+	{
+		$idUser = Auth::user()->id;
+		$idProgram = $id;
+
+		$this->validate($req,[
+			'content' => 'required'
+		]);
+
+		$program_comment = new Comment_Program();
+		$program_comment->id_user = $idUser;
+		$program_comment->id_program = $idProgram;
+		$program_comment->content = $req->content;
+		$program_comment->save();
+		return redirect()->back();
 	}
 
 }

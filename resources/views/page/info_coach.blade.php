@@ -45,8 +45,6 @@ All programs
 					</div>
 
 					<br>
-					<a href=""><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
-					<br>
 					@if(!isset($practice))
 					<a href="{{route('subscribe',$p->id)}}">Subscribe</a><hr>
 					@else

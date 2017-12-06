@@ -11,10 +11,9 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="{{ route('homepage') }}">HOME</a></li>
-        <li><a href="#">ABOUT</a></li>
-        <li><a href="#">CONTACT</a></li>
         
         @if(Auth::check())
+        <li><a href="{{ route('all_programs') }}">PROGRAM</a></li>
         <li><a href="{{ route('all_blogs') }}">BLOG</a></li>
 {{--         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">TRAINING<span class="caret"></span></a>

@@ -126,3 +126,14 @@ Route::post('comment-blog/{id}',[
 	'as' => 'comment_blog',
 	'uses' => 'UserController@commentBlog'
 ]);
+
+Route::get('like-program/{id}',[
+	'as' => 'like_program',
+	'uses' => 'UserController@likeProgram'
+]);
+
+Route::post('comment-program/{id}',[
+	'as' => 'comment_program',
+	'uses' => 'UserController@commentProgram'
+]);
+
