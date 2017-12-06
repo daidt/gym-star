@@ -112,3 +112,17 @@ Route::get('info-coach/{idCoach}',[
 	'uses' => 'UserController@getInfoCoach'
 ]);
 
+Route::get('all-blogs',[
+	'as' => 'all_blogs',
+	'uses' => 'UserController@getAllBlogs'
+]);
+
+Route::get('detail-blog/{id}',[
+	'as' => 'detail_blog',
+	'uses' => 'UserController@getDetailBlog'
+]);
+
+Route::post('comment-blog/{id}',[
+	'as' => 'comment_blog',
+	'uses' => 'UserController@commentBlog'
+]);

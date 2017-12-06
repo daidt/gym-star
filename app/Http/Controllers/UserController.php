@@ -18,6 +18,8 @@ use App\Included;
 use App\Action;
 use App\Completed;
 use App\Training;
+use App\Blogs_Comment;
+
 class UserController extends Controller
 {
 	public function __construct()
@@ -170,8 +172,15 @@ class UserController extends Controller
 	public function getMyBlog($username)
 	{
 		$id = Auth::user()->id;
+		$count = count(Blog::where('id_user',$id)->get());
+
+		$comments_blogs = DB::table('blogs_comments')
+		->join('blogs', 'blogs_comments.id_blog', '=', 'blogs.id')
+		->where('blogs.id_user','=',$id)
+		->get();
+
 		$blog = Blog::where('id_user',$id)->orderBy('created_at', 'desc')->paginate(3); 
-		return view('page.my_blog',compact('blog'));
+		return view('page.my_blog',compact(['blog','count','comments_blogs']));
 	}
 
 	public function postBlog(Request $req)
@@ -253,6 +262,8 @@ class UserController extends Controller
 
 	public function getAllPrograms()
 	{
+		$program = Program::all();
+		$count = count($program);
 		$program = Program::paginate(5);
 		//$idProgram = Program::all()->pluck('id')->toArray();
 		// $arrayCoach = Training::whereIn('id_program',$idProgram)->pluck('id_user')->toArray();
@@ -269,7 +280,7 @@ class UserController extends Controller
 
 		
 
-		return view('page.all_programs',compact(['program','practice','coach']));
+		return view('page.all_programs',compact(['program','practice','coach','count']));
 	}
 
 	public function getInfoProgram($idProgram)
@@ -283,6 +294,11 @@ class UserController extends Controller
 		// $completed_time = $practice[0]->completed_time;
 
 		$action = Action::where('id_program',$idProgram)->get();
+
+		$coach = DB::table('training')
+		->join('users', 'training.id_user', '=', 'users.id')
+		->select('users.fullname','training.id_program','users.id')
+		->get();
 		// $action_completed = Completed::where('id_practice',$idPractice)->get();
 
 		// if((count($action) == count($action_completed)) && $completed_time == "" ) {
@@ -292,7 +308,7 @@ class UserController extends Controller
 		// 	$practice[0]-> touch();
 		// }
 
-		return view('page.info_program',compact(['p','action','practiced']));
+		return view('page.info_program',compact(['p','action','practiced','coach']));
 	}
 
 
@@ -306,7 +322,6 @@ class UserController extends Controller
 		->paginate(3);
 
 		$idProgram = Training::where('id_user',$idCoach)->pluck('id_program')->toArray();
-		var_dump($idProgram);
 
 		$coach = DB::table('training')
 		->join('users', 'training.id_user', '=', 'users.id')
@@ -317,6 +332,62 @@ class UserController extends Controller
 		$practice = Practice::where('id_user',$idUser)->get();
 
 		return view('page.info_coach',compact(['training','coach','practice']));
+	}
+
+	public function getAllBlogs()
+	{
+		$count = count(Blog::all()); 
+		$user_blog = DB::table('blogs')
+		->join('users', 'blogs.id_user', '=', 'users.id')
+		->orderBy('blogs.created_at','desc')
+		->select('blogs.*','users.fullname')
+		->paginate(5);
+
+		$comments_blogs = DB::table('blogs_comments')
+		->join('blogs', 'blogs_comments.id_blog', '=', 'blogs.id')
+		->get();
+
+
+		return view('page.all_blogs',compact(['user_blog','count','comments_blogs']));
+	}
+
+	public function getDetailBlog($id)
+	{
+		$blog = Blog::where('id',$id)->get();
+		$idUser = $blog[0]->id_user;
+		$user = User::where('id',$idUser)->get();
+
+		$count = count(DB::table('blogs_comments')
+			->join('users', 'blogs_comments.id_user', '=', 'users.id')
+			->where('blogs_comments.id_blog', '=', $id)->get());
+
+		$comments_blogs = DB::table('blogs_comments')
+		->join('users', 'blogs_comments.id_user', '=', 'users.id')
+		->where('blogs_comments.id_blog', '=', $id)
+		->select('blogs_comments.*','users.fullname')
+		->orderBy('blogs_comments.created_at','desc')
+		->paginate(5);
+		// var_dump($comments_blogs);exit;
+
+		return view('page.detail_blog',compact(['blog','comments_blogs','user','count']));
+	}
+
+	public function commentBlog(Request $req, $id)
+	{
+		$idUser = Auth::user()->id;
+		$idBlog = $id;
+
+		$this->validate($req,[
+			'content' => 'required'
+		]);
+
+		$blogs_comment = new Blogs_comment();
+		$blogs_comment->id_user = $idUser;
+		$blogs_comment->id_blog = $idBlog;
+		$blogs_comment->content = $req->content;
+		$blogs_comment->save();
+		return redirect()->back();
+
 	}
 
 }

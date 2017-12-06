@@ -195,8 +195,6 @@
           <p><a href="{{ route('mypage',Auth::user()->username)}}">My Programs</a></p>
           <p><a href="{{ route('myblog',Auth::user()->username)}}">My Blogs</a></p>
           <p><a href="{{ route('all_programs') }}">All Program</a></p>
-          <p><a href="#">All Blogs</a></p>
-          <p><a href="#">All Coach</a></p>
         </div>
 
         @yield('content')

@@ -1,55 +1,30 @@
 @extends('userpage')
 @section('title')
-My Blog
+All Blog
 @endsection
 @section('content')
 
-<div class="col-sm-8 text-left"> 
-	<center><h1>My Blog</h1></center>
-
-	<form action="{{ route('post_blog') }}" method = "POST">
-		{{csrf_field()}}
-		<div class="form-group">
-			<label class="control-label">Title</label><br>			
-			<input type="text" class="form-control" name="title" id="title" placeholder="Enter your Blog's Title" required="" value="">
-			
-		</div>
-
-		<div class="form-group">
-			<label for="content">Content:</label>
-			<textarea class="form-control" rows="5" name="content" id="content"></textarea>
-		</div>
-
-		<div class="form-group">            
-			<input name="Submit" type="submit" value="Post" class="btn btn-primary">
-		</div>
-
-	</form>
-	<hr>
-
-	@if(!isset($blog))
-	{{"You have no posts"}}
-	@else
-	<h3>Recent post: found {{$count}} posts</h3>
-	@foreach($blog as $post)
+<div class="col-sm-8 text-left">
+	<center><h3>Recent blogs : found {{$count}} blogs</h3></center>
+	@foreach($user_blog as $ub)
 	<div class="well">
 		<div class="media">
 			<a class="pull-left" href="#">
 				<img class="media-object" src="http://placekitten.com/150/150">
 			</a>
 			<div class="media-body">
-				<a href="{{ route('detail_blog',$post->id) }}"><h4 class="media-heading">{{$post->title}}</h4></a>
-				<p>{{$post->content}}</p>
+				<a href="{{ route('detail_blog',$ub->id) }}"><h4 class="media-heading">{{$ub->title}}</h4></a>
+				<p class="text-right">by <b>{{$ub->fullname}}</b></p>
+				<p>{{$ub->content}}</p>
 				<ul class="list-inline list-unstyled">
-					<li><span><i class="glyphicon glyphicon-calendar"></i> {{$post->created_at}} </span></li>
+					<li><span><i class="glyphicon glyphicon-calendar"></i> {{$ub->created_at}} </span></li>
 					<li>|</li>
 					<span><i class="glyphicon glyphicon-comment"></i>
-
 						<?php
 						$count = 0;?>
 						@foreach($comments_blogs as $cb)
 						<?php
-						if($post->id == $cb->id_blog)
+						if($ub->id == $cb->id_blog)
 							$count++;
 						?>
 						@endforeach
@@ -75,9 +50,6 @@ My Blog
 		</div>
 	</div>
 	@endforeach
-	<div align="center" class="row">{{ $blog->appends(Request::all())->links() }}</div>
-	@endif
-	
+	<div align="center" class="row">{{ $user_blog->appends(Request::all())->links() }}</div>
 </div>
-
 @endsection

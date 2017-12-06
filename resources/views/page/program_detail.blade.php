@@ -5,16 +5,21 @@ Programs Details
 
 @section('content')
 <div class="col-sm-8 text-left"> 
-
-	<h3>Title : {{ $p[0]->title}}</h3>
-	<h4>
-		Level : @if($p[0]->level == 1 ){{ "Light" }}
-		@elseif($p[0]->level == 2 ){{ "Medium" }}
-		@elseif($p[0]->level == 3 ){{ "Hard" }}
-		@endif
-	</h4>
-	<img src="{{$p[0]->image}}" alt="Image">
-	<hr>
+	<div class="well">
+		<div class="media">
+			<div class="media-body">
+				<h3>Title : {{ $p[0]->title}}</h3>
+				<h4>
+					Level : @if($p[0]->level == 1 ){{ "Light" }}
+					@elseif($p[0]->level == 2 ){{ "Medium" }}
+					@elseif($p[0]->level == 3 ){{ "Hard" }}
+					@endif
+				</h4>
+				<img src="{{$p[0]->image}}" alt="Image">
+				<hr>
+			</div>
+		</div>
+	</div>
 
 	<div>
 		<h2>Actions :</h2>
